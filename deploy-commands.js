@@ -1,5 +1,7 @@
+require('dotenv').config(); // чтобы переменные окружения работали
 const { REST, Routes, SlashCommandBuilder } = require('discord.js');
 
+// ⚡ Сами команды
 const commands = [
   new SlashCommandBuilder()
     .setName('tr')
@@ -18,7 +20,6 @@ const commands = [
     .addStringOption((opt) =>
       opt.setName('text').setDescription('Text to translate').setRequired(true),
     ),
-
   new SlashCommandBuilder()
     .setName('tl')
     .setDescription('Translate replied message')
@@ -35,16 +36,19 @@ const commands = [
     ),
 ].map((c) => c.toJSON());
 
-const rest = new REST({ version: '10' }).setToken(process.env.DICKORD_TOKEN);
+// ⚡ Функция регистрации команд
+async function registerCommands() {
+  const rest = new REST({ version: '10' }).setToken(process.env.DICKORD_TOKEN);
 
-(async () => {
   try {
     await rest.put(Routes.applicationGuildCommands(process.env.CLIENT_ID, process.env.GUILD_ID), {
       body: commands,
     });
     console.log('✅ Slash commands registered');
   } catch (e) {
-    console.error(e);
+    console.error('❌ Failed to register commands:', e);
   }
-})();
+}
+
+// ⚡ Экспортируем функцию, чтобы index.js мог её вызывать
 module.exports = { registerCommands };
