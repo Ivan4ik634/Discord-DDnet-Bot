@@ -1,5 +1,4 @@
 const { Client, GatewayIntentBits } = require('discord.js');
-
 const translateAPI = require('@vitalets/google-translate-api');
 const { registerCommands } = require('./deploy-commands');
 const client = new Client({
@@ -45,28 +44,6 @@ client.on('interactionCreate', async (interaction) => {
       ephemeral: true,
     });
   }
-
-  if (commandName === 'tl') {
-    const lang = interaction.options.getString('lang');
-
-    const msg = interaction.channel.lastMessage;
-    if (!msg || !msg.content) {
-      return interaction.reply({
-        content: 'There is no message to translate.',
-        ephemeral: true,
-      });
-    }
-
-    const translated = await translate(msg.content, lang);
-    if (!translated) {
-      return interaction.reply({ content: 'Translation error', ephemeral: true });
-    }
-
-    return interaction.reply({
-      content: `${translated}`,
-      ephemeral: true,
-    });
-  }
 });
 
 client.on('messageReactionAdd', async (reaction, user) => {
@@ -88,9 +65,9 @@ client.on('messageReactionAdd', async (reaction, user) => {
   const translated = await translate(message.content, lang);
   if (!translated) return;
 
-  return interaction.reply({
+  await message.reply({
     content: `${translated}`,
-    ephemeral: true,
+    allowedMentions: { repliedUser: false },
   });
 });
 

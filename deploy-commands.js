@@ -20,20 +20,6 @@ const commands = [
     .addStringOption((opt) =>
       opt.setName('text').setDescription('Text to translate').setRequired(true),
     ),
-  new SlashCommandBuilder()
-    .setName('tl')
-    .setDescription('Translate replied message')
-    .addStringOption((opt) =>
-      opt
-        .setName('lang')
-        .setDescription('Target language')
-        .setRequired(true)
-        .addChoices(
-          { name: 'Russian', value: 'ru' },
-          { name: 'English', value: 'en' },
-          { name: 'Ukrainian', value: 'uk' },
-        ),
-    ),
 ].map((c) => c.toJSON());
 
 // ⚡ Функция регистрации команд
