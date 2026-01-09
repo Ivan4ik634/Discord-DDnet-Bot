@@ -1,7 +1,7 @@
 const { Client, GatewayIntentBits } = require('discord.js');
 
 const translateAPI = require('@vitalets/google-translate-api');
-
+const { registerCommands } = require('./deploy-commands');
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -25,7 +25,7 @@ async function translate(text, lang) {
 client.once('clientReady', () => {
   console.log(`🤖 Logged in as ${client.user.tag}`);
 });
-
+registerCommands();
 client.on('interactionCreate', async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
 

@@ -47,3 +47,4 @@ const rest = new REST({ version: '10' }).setToken(process.env.DICKORD_TOKEN);
     console.error(e);
   }
 })();
+module.exports = { registerCommands };
