@@ -31,7 +31,6 @@ client.on('interactionCreate', async (interaction) => {
 
   const { commandName } = interaction;
 
-  // /tr
   if (commandName === 'tr') {
     const lang = interaction.options.getString('lang');
     const text = interaction.options.getString('text');
@@ -41,20 +40,12 @@ client.on('interactionCreate', async (interaction) => {
       return interaction.reply({ content: 'Translation error', ephemeral: true });
     }
 
-    const thread = await interaction.channel.threads.create({
-      name: `Translation (${lang})`,
-      autoArchiveDuration: 60,
-    });
-
-    await thread.send(`**Original:**\n${text}\n\n**Translation:**\n${translated}`);
-
     return interaction.reply({
-      content: 'Translation created in thread',
+      content: {translated},
       ephemeral: true,
     });
   }
 
-  // /tl
   if (commandName === 'tl') {
     const lang = interaction.options.getString('lang');
 
@@ -71,21 +62,13 @@ client.on('interactionCreate', async (interaction) => {
       return interaction.reply({ content: 'Translation error', ephemeral: true });
     }
 
-    const thread = await msg.startThread({
-      name: `Translation (${lang})`,
-      autoArchiveDuration: 60,
-    });
-
-    await thread.send(`**Translation:**\n${translated}`);
-
     return interaction.reply({
-      content: 'Translation created in thread',
+      content: `${translated}`,
       ephemeral: true,
     });
   }
 });
 
-// ===== Реакции 🇺🇦 🇷🇺 🇬🇧 =====
 client.on('messageReactionAdd', async (reaction, user) => {
   if (user.bot) return;
   if (reaction.partial) await reaction.fetch();
@@ -105,12 +88,10 @@ client.on('messageReactionAdd', async (reaction, user) => {
   const translated = await translate(message.content, lang);
   if (!translated) return;
 
-  const thread = await message.startThread({
-    name: `Translation (${lang})`,
-    autoArchiveDuration: 60,
+  return interaction.reply({
+    content: `${translated}`,
+    ephemeral: true,
   });
-
-  await thread.send(`${translated}`);
 });
 
 client.login(process.env.DICKORD_TOKEN);
