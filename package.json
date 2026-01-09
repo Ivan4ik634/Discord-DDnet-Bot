@@ -1,0 +1,22 @@
+{
+  "name": "translate-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@vitalets/google-translate-api": "^9.2.1",
+    "axios": "^1.13.2",
+    "discord.js": "^14.25.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}
